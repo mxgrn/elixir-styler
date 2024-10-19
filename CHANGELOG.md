@@ -4,6 +4,16 @@
 they can and will change without that change being reflected in Styler's semantic version.
 ## main
 
+### Fixes
+
+* `pipes`: optimizations are less likely to move comments (Closes #176)
+
+## 1.1.2
+
+### Improvements
+
+* Config Sorting: improve comment handling when only sorting a few nodes (Closes #187)
+
 ## 1.1.1
 
 ### Improvements
