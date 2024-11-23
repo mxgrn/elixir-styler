@@ -4,6 +4,88 @@
 they can and will change without that change being reflected in Styler's semantic version.
 ## main
 
+### Improvements
+
+#### `# styler:sort` Styler's first comment directive
+
+Styler will now keep a user-designated list or wordlist (`~w` sigil) sorted as part of formatting via the use of comments.
+
+The intention is to remove comments to humans, like `# Please keep this list sorted!`, in favor of comments to robots: `# styler:sort`. Personally speaking, Styler is much better at alphabetical-order than I ever will be.
+
+To use the new directive, put it on the line before a list or wordlist.
+
+This example:
+
+```elixir
+# styler:sort
+[:c, :a, :b]
+
+# styler:sort
+~w(a list of words)
+
+# styler:sort
+@country_codes ~w(
+  en_US
+  po_PO
+  fr_CA
+  ja_JP
+)
+
+# styler:sort
+a_var =
+  [
+    Modules,
+    In,
+    A,
+    List
+  ]
+```
+
+Would yield:
+
+```elixir
+# styler:sort
+[:a, :b, :c]
+
+# styler:sort
+~w(a list of words)
+
+# styler:sort
+@country_codes ~w(
+  en_US
+  fr_CA
+  ja_JP
+  po_PO
+)
+
+# styler:sort
+a_var =
+  [
+    A,
+    In,
+    List,
+    Modules
+  ]
+```
+
+Sorting is done according to erlang term ordering, so lists with elements of multiple types will work just fine.
+
+## 1.2.1
+
+### Fixes
+
+* `|>` don't pipify when the call is itself in a pipe (aka don't touch `a |> b(c |> d() |>e()) |> f()`) (Closes #204, h/t @paulswartz)
+
+## 1.2.0
+
+### Improvements
+
+* `pipes`: pipe-ifies when first arg to a function is a pipe. reach out if this happens in unstylish places in your code (Closes #133)
+* `pipes`: unpiping assignments will make the assignment one-line when possible (Closes #181)
+* `deprecations`: 1.18 deprecations
+    * `List.zip` => `Enum.zip`
+    * `first..last = range` => `first..last//_ = range`
+
 ### Fixes
 
 * `pipes`: optimizations are less likely to move comments (Closes #176)
